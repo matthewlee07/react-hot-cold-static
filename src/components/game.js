@@ -5,6 +5,7 @@ import Header from './header';
 import GuessSection from './guess-section';
 import GuessCount from './guess-count';
 import GuessList from './guess-list';
+import Explosion from './explosion';
 
 export default class Game extends React.Component {
     constructor(props) {
@@ -13,7 +14,6 @@ export default class Game extends React.Component {
             view: 'game',
             guesses: [],
             guess: '',
-            //doesn't include 0
             answer: Math.floor((Math.random() * 100) + 1),
             feedback: 'Make your guess'
         }
@@ -36,7 +36,7 @@ export default class Game extends React.Component {
     storeGuess(guess) {
         // event.preventDefault();
         if (this.state.guesses.includes(guess) && guess !== this.state.answer) {
-            this.setState({ 
+            this.setState({
                 feedback: "You already guessed that, dummy!",
                 guess: ''
             })
@@ -47,7 +47,11 @@ export default class Game extends React.Component {
                 guess: ''
             })
             if (this.state.answer - guess === 0 && this.state.answer - guess === 0) {
-                this.setState({ feedback: "YOU'RE RIGHT! YOU'RE SO SMART! OH MY GOD" })
+                this.setState({
+                    // view: 'explosion',
+                    feedback: "YOU'RE RIGHT! YOU'RE SO SMART! OH MY GOD"
+                }
+                )
             }
             else if (this.state.answer - guess <= 5 && this.state.answer - guess >= -5) {
                 this.setState({ feedback: "YOU'RE ON FIRE!" })
@@ -90,18 +94,27 @@ export default class Game extends React.Component {
             )
         }
 
+        else if (this.state.view === 'explosion') {
+            return (
+                <div>
+                    <Explosion onClick={(view) => this.setView(view)} />
+                </div>
+            )
+        }
 
-        return (
-            <div>
-                <Header onClick={(view) => this.setView(view)} onClick2={(game) => this.resetGame(game)} />
-                <GuessSection onSubmit={() => this.storeGuess(this.state.guess)}
-                    recordGuess={(guess) => this.recordGuess(guess)}
-                    guess={this.state.guess}
-                    feedback={this.state.feedback} />
-                <GuessCount count={this.state.guesses.length} />
-                <GuessList guesses={this.state.guesses} />
-            </div>
-        );
+        else {
+            return (
+                <div>
+                    <Header onClick={(view) => this.setView(view)} onClick2={(game) => this.resetGame(game)} />
+                    <GuessSection onSubmit={() => this.storeGuess(this.state.guess)}
+                        recordGuess={(guess) => this.recordGuess(guess)}
+                        guess={this.state.guess}
+                        feedback={this.state.feedback} />
+                    <GuessCount count={this.state.guesses.length} />
+                    <GuessList guesses={this.state.guesses} />
+                </div>
+            );
+        }
     }
 }
 
