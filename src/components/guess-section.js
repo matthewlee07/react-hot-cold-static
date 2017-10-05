@@ -8,7 +8,7 @@ export default function GuessSection(props) {
     return (
         <section>
             <h2 id="feedback">{props.feedback}</h2>
-            <GuessForm onSubmit={props.onSubmit}/>
+            <GuessForm onSubmit={props.onSubmit} guess={props.guess} />
         </section>
     );
 }

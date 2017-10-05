@@ -11,7 +11,10 @@ export default class Game extends React.Component {
         super(props);
         this.state = {
             view: 'game',
-            guesses: []
+            guesses: [],
+            guess:'',
+            //doesn't include 0
+            answer:Math.floor((Math.random()*100)+1)
         }
     }
 
@@ -28,11 +31,14 @@ export default class Game extends React.Component {
     }
 
     storeGuess(guess){
-        event.preventDefault();
+        // event.preventDefault();
         this.setState({
-            guesses:[...this.state.guesses,guess]
+            guesses:[...this.state.guesses,guess],
+            guess:guess
         })
     }
+
+
 
     render() {
         if(this.state.view==='info'){
@@ -47,7 +53,7 @@ export default class Game extends React.Component {
         return (
             <div>
                 <Header onClick={(view)=>this.setView(view)} onClick2={(game)=>this.resetGame(game)}/>
-                <GuessSection onSubmit={(guess)=>this.storeGuess(guess)}feedback="Make your guess!" />
+                <GuessSection onSubmit={(guess)=>this.storeGuess(guess)} value={this.state.guess} feedback="Make your guess!" />
                 <GuessCount count={this.state.guesses.length} />
                 <GuessList guesses={this.state.guesses} />
             </div>

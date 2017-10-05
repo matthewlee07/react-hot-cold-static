@@ -4,11 +4,15 @@ import './guess-form.css';
 
 export default function GuessForm(props) {
     return (
-        <form value={this.state.guess} onSubmit={(event)=>props.onSubmit(event)}>
+        <form onSubmit={(event)=> {
+            event.preventDefault();
+            props.onSubmit(event.target.value);
+            }
+            }>
             <input type="text" name="userGuess" id="userGuess"
                 className="text" maxLength="3" autoComplete="off"
                 placeholder="Enter your Guess" required />
-            <input type="submit" id="guessButton" className="button" name="submit" value="Guess"/>
+            <input type="submit" id="guessButton" className="button" name="submit" value={props.guess}/>
         </form>
     );
 };
